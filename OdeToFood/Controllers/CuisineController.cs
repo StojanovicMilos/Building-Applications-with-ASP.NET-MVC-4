@@ -9,7 +9,7 @@ namespace OdeToFood.Controllers
         {
             var message = Server.HtmlEncode(name);
 
-            return Content(message);
+            return Json(new { Message = message, Name = "Scott" }, JsonRequestBehavior.AllowGet);
         }
     }
 }
