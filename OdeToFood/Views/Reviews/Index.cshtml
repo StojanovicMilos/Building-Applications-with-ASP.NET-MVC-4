@@ -9,19 +9,18 @@
 
 <h2>The Latest Reviews</h2>
 
-We are showing the latest @Model.Count() reviews
-
+@section featured {
+    We are showing the latest @Model.Count() reviews
+}
 Virtual path is @VirtualPath
 
 @foreach (var item in Model)
 {
-    @:Review
     <div class="review">
         <h4>@item.Name</h4>
         <span>@item.Rating</span>
         <p>@item.City, @item.Country</p>
     </div>
-    @:}
 }
 
 <p>
