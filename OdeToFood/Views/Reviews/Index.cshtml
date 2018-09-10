@@ -1,0 +1,24 @@
+﻿@model IEnumerable<OdeToFood.Models.RestaurantReview>
+
+@{
+    ViewBag.Title = "Index";
+    var firstReview = Model.First();
+}
+
+@firstReview.Name
+
+<h2>The Latest Reviews</h2>
+
+@section featured {
+    We are showing the latest @Model.Count() reviews
+}
+Virtual path is @VirtualPath
+
+@foreach (var item in Model)
+{
+    @Html.Partial("_Review", item) @*this is a subrequest, it doesn't go to the server for the second time*@ 
+}
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
