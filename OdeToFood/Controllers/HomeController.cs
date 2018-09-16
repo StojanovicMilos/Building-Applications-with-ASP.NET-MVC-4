@@ -8,7 +8,7 @@ namespace OdeToFood.Controllers
     {
         OdeToFoodDb _db = new OdeToFoodDb();
 
-        public ActionResult Index()
+        public ActionResult Index(string searchTerm = null)
         {
             //var model = from r in _db.Restaurants
             //            orderby r.Reviews.Average(review => review.Rating) descending
@@ -22,6 +22,7 @@ namespace OdeToFood.Controllers
             //            };
 
             var model = _db.Restaurants
+                        .Where(r => searchTerm == null || r.Name.StartsWith(searchTerm)) // we want to filter before ordering Scott :)
                         .OrderByDescending(r => r.Reviews.Average(review => review.Rating))
                         .Take(10)
                         .Select(r => new RestaurantListViewModel
