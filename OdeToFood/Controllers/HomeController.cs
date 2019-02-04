@@ -1,6 +1,7 @@
 ﻿using OdeToFood.Models;
 using System.Linq;
 using System.Web.Mvc;
+using PagedList;
 
 namespace OdeToFood.Controllers
 {
@@ -15,31 +16,20 @@ namespace OdeToFood.Controllers
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Index(string searchTerm = null)
+        public ActionResult Index(string searchTerm = null, int page = 1)
         {
-            //var model = from r in _db.Restaurants
-            //            orderby r.Reviews.Average(review => review.Rating) descending
-            //            select new RestaurantListViewModel
-            //            {
-            //                Id = r.Id,
-            //                Name = r.Name,
-            //                City = r.City,
-            //                Country = r.Country,
-            //                CountOfReviews = r.Reviews.Count()
-            //            };
-
             var model = _db.Restaurants
-                        .Where(r => searchTerm == null || r.Name.StartsWith(searchTerm)) // we want to filter before ordering Scott :)
-                        .OrderByDescending(r => r.Reviews.Average(review => review.Rating))
-                        .Take(10)
-                        .Select(r => new RestaurantListViewModel
-                        {
-                            Id = r.Id,
-                            Name = r.Name,
-                            City = r.City,
-                            Country = r.Country,
-                            CountOfReviews = r.Reviews.Count()
-                        });
+                .Where(r => searchTerm == null || r.Name.StartsWith(searchTerm)) // we want to filter before ordering Scott :)
+                .OrderByDescending(r => r.Reviews.Average(review => review.Rating))
+                .Select(r => new RestaurantListViewModel
+                {
+                    Id = r.Id,
+                    Name = r.Name,
+                    City = r.City,
+                    Country = r.Country,
+                    CountOfReviews = r.Reviews.Count
+                })
+                .ToPagedList(page, 10);
 
             if (Request.IsAjaxRequest())
             {
