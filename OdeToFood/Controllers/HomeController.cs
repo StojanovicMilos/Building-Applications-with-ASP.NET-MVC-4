@@ -5,6 +5,8 @@ using PagedList;
 
 namespace OdeToFood.Controllers
 {
+    //[Authorize(Users = "sallen, plall")]
+    [Authorize(Roles = "administrators, sales")]
     public class HomeController : Controller
     {
         OdeToFoodDb _db = new OdeToFoodDb();
@@ -16,6 +18,7 @@ namespace OdeToFood.Controllers
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
+        [AllowAnonymous]
         public ActionResult Index(string searchTerm = null, int page = 1)
         {
             var model = _db.Restaurants
