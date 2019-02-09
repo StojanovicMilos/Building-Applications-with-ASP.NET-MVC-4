@@ -21,6 +21,7 @@ namespace OdeToFood.Controllers
         }
 
         // GET: Restaurants/Create
+        [Authorize(Roles = "admin")]
         public ActionResult Create()
         {
             return View();
@@ -31,6 +32,7 @@ namespace OdeToFood.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult Create([Bind(Include = "Id,Name,City,Country")] Restaurant restaurant)
         {
             if (ModelState.IsValid)
